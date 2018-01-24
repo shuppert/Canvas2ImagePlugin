@@ -17,7 +17,7 @@
         else if (typeof failureCallback != "function") {
             console.log("Canvas2ImagePlugin Error: failureCallback is not a function");
         }
-        else if ((fileExtension) && ((fileExtension.toLowerCase() != '.jpg') && (fileExtension.toLowerCase() != '.png'))) {
+        else if ((fileExtension) && ((fileExtension.toLowerCase() != '.jpg') && (fileExtension.toLowerCase != '.png'))) {
             console.log("Canvas2ImagePlugin Error: fileExtension must be '.jpg' or '.png'");
         }
         else {
@@ -25,6 +25,7 @@
             var imageData = canvas.toDataURL().replace(/data:image\/png;base64,/,'');
             var extension='.png';
             var destQuality=100;
+            
             if (fileExtension) extension=fileExtension.toLowerCase();
             try{
               if (quality) destQuality=parseFloat(quality);
@@ -32,7 +33,7 @@
             var params= [imageData,extension,destQuality];
             if (picfolder) {
               params=[imageData,extension,destQuality,picfolder];
-              if (add2galery) params.push(add2galery);
+              if (add2galery!=undefined) params.push(add2galery);
             }
             return cordova.exec(successCallback, failureCallback, "Canvas2ImagePlugin","saveImageDataToLibrary",params);
         }

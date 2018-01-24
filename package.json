@@ -1,0 +1,20 @@
+{
+  "version": "0.7.1",
+  "name": "org.wbt11a.Canvas2ImagePlugin",
+  "cordova_name": "Canvas2ImagePlugin",
+  "description": "PhoneGap / Cordova plugin for iOS to save the contents of an HTML canvas to the device's Photo Library",
+  "license": "MIT",
+  "repo": "https://github.com/shuppert/Canvas2ImagePlugin",
+  "issue": "",
+  "keywords": [],
+  "platforms": [
+    "android",
+    "ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.5.0"
+    }
+  ]
+}

@@ -42,7 +42,7 @@ public class Canvas2ImagePlugin extends CordovaPlugin {
 			String extension = data.optString(1);
 			String quality = data.optString(2);
 			String picfolder= Environment.DIRECTORY_PICTURES;
-			boolean add2Galery=true;
+			boolean add2Galery=false;
 			if (data.length()>3) picfolder=data.optString(3);
 			if (data.length()>4) add2Galery=Boolean.valueOf(data.optString(4));
 				
@@ -107,14 +107,9 @@ public class Canvas2ImagePlugin extends CordovaPlugin {
 			 * 2.2
 			 */
 			if (check >= 1) {
-				if (picfolder == Environment.DIRECTORY_PICTURES){
 					folder = Environment
-	//					.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//					.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 						.getExternalStoragePublicDirectory(picfolder);
-				}
-				else{
-					folder = new File(picfolder);
-				}
 				if(!folder.exists()) {
 					folder.mkdirs();
 				}

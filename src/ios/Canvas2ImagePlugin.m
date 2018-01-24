@@ -25,7 +25,7 @@
                || [[extension lowercaseString] isEqualToString:@"jpg"] || [[extension lowercaseString] isEqualToString:@"jpeg"]) {
         [UIImageJPEGRepresentation(image, quality) writeToFile:[directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", imageName, @"jpg"]] options:NSAtomicWrite error:nil];
     } else {
-        ALog(@"Image Save Failed\nExtension: (%@) is not recognized, use (PNG/JPG)", extension);
+        //ALog(@"Image Save Failed\nExtension: (%@) is not recognized, use (PNG/JPG)", extension);
     }
 }
 
@@ -36,20 +36,26 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
     NSString *dateString = [dateFormatter stringFromDate:date];
-
-    self.latestCommand = command;
-    NSData* imageData = [NSData dataFromBase64String:[command.arguments objectAtIndex:0]];
     
+    self.latestCommand = command;
+    //NSData* imageData = [[NSData alloc] dataFromBase64String:[command.arguments objectAtIndex:0]];
+    NSData* imageData = [[NSData alloc] initWithBase64EncodedString:[command.arguments objectAtIndex:0] options:0];
     UIImage* image = [[[UIImage alloc] initWithData:imageData] autorelease];
-
-    NSString * path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *temp = @"ImageFile-";
     NSString *ImageName = [temp stringByAppendingFormat:@"%@",dateString];
     NSString *extension = @"png";
     extension = [command.arguments objectAtIndex:1];
     CGFloat quality = 1.0;
     quality = [[command.arguments objectAtIndex:2] floatValue] / 100;
+    bool saveInGallery = false;
+    //saveInGallery = [command.arguments objectAtIndex:4];
+    //NSString *path2=[command.arguments objectAtIndex:3];
+    //path = path + path2;
     
+    //NSString *concatpart = [path stringByAppendingString:@"/"];
+    //NSString *concat = [concatpart stringByAppendingString:path2];
     
     [self saveImage:image withFileName:ImageName ofType:extension inDirectory:path and:quality];
     
@@ -57,7 +63,9 @@
     NSString *documentFolderPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSLog(@"Tile Directory: %@", tileDirectory);
     NSLog(@"Doc Directory: %@", documentFolderPath);
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    //if(saveInGallery){
+     //   UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    //}
     CDVPluginResult* result = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsString:[NSString stringWithFormat:@"%@/%@%@", documentFolderPath, ImageName, extension]];
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
@@ -82,7 +90,7 @@
 }
 
 - (void)dealloc
-{   
+{
     [callbackId release];
     [super dealloc];
 }
